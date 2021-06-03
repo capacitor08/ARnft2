@@ -23,7 +23,7 @@
     <script src="../dist/ARnft.js"></script>
 
     <script>
-        ARnft.ARnft.init(640, 480, "examples/DataNFT/pinball", 'config.json', true)
+        ARnft.ARnft.init(640, 480, "examples/DataNFT/demo_bleague", 'config.json', true)
             .then((nft) => {
                 let root = new THREE.Object3D();
                 root.matrixAutoUpdate = false;
@@ -56,8 +56,16 @@
                         true);
                     sceneThreejs.initRenderer();
 
+                    var ARVideo = document.getElementById('arvideo');
+                    var texture = new THREE.VideoTexture(ARVideo);
+                    var mat = new THREE.MeshLambertMaterial({ color: 0xbbbbff, map: texture });
+                    ARVideo.play();
+                    var planeGeom = new THREE.PlaneGeometry(1, 1, 1, 1);
+                    var plane = new THREE.Mesh(planeGeom, mat);
+                    plane.scale.set(180, 180, 180);
+
                     let nftAddTJS = new ARnftThreejs.NFTaddTJS(root);
-                    nftAddTJS.addVideo('arvideo', 180);
+                    nftAddTJS.add(plane);
 
                     const tick = () => {
                         sceneThreejs.draw();
